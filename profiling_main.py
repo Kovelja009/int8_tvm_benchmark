@@ -9,9 +9,14 @@ from tvm import autotvm, testing, auto_scheduler
 from tvm.contrib import ndk, rpc, utils
 import tvm.contrib.debugger.debug_executor as debug_executor
 
-from baseline.utils import quantize
+from utils import quantize
 
-from baseline.model_archive import MODEL_ARCHIVE
+from model_archive import MODEL_ARCHIVE
+
+
+import logging
+logging.getLogger('autotvm').setLevel(logging.DEBUG)
+
 
 if __name__ == "__main__":
     parser = argparse.ArgumentParser("")
