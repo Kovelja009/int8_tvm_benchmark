@@ -18,9 +18,14 @@ from model_archive import MODEL_ARCHIVE
 '''
     python3 -m tvm.exec.rpc_tracker --host=127.0.0.1 --port=9190
 '''
-# Then in another terminal, we can start the tuning script
+# Then in another terminal, we can start the tuning script for:
+# - CPU x86 target:
 '''
-    python3 tuning_main.py --model resnet18 --quantize --target x86 --key intel_thinkpad
+    python3 tuning_main.py --model resnet18 --quantize --tuner auto_scheduler --target x86 --key 1650ti
+'''
+# - GPU cuda target:
+'''
+    python3 tuning_main.py --model resnet18 --quantize --tuner auto_scheduler --target cuda --key 1650ti
 '''
 
 
@@ -32,7 +37,7 @@ if __name__ == "__main__":
     parser.add_argument("--tuner", default="autotvm",
                         choices=["autotvm", "auto_scheduler"])
     parser.add_argument("--quantize", action="store_true")
-    parser.add_argument("--target", default="x86", choices=["x86", "arm"])
+    parser.add_argument("--target", default="x86", choices=["x86", "arm", "cuda"])
     parser.add_argument("--host", default="127.0.0.1")
     parser.add_argument("--port", default=9190, type=int)
     parser.add_argument("--key", default="intel_thinkpad")
@@ -42,6 +47,9 @@ if __name__ == "__main__":
 
     model_info = MODEL_ARCHIVE[args.model]
 
+    log_file = "%s-%s.log" % (args.model, args.target)
+
+    print("Loading model from PyTorch")
     model = model_info["model"]()
     input_tensors = model_info["input"]
     scripted_model = torch.jit.trace(model, input_tensors).eval()
@@ -66,6 +74,7 @@ if __name__ == "__main__":
                 builder="local", runner="local"
             )
         elif args.tuner == "auto_scheduler":
+            print("Using auto_scheduler tuner")
             builder = auto_scheduler.LocalBuilder()
             runner = auto_scheduler.LocalRunner(
                 repeat=10, enable_cpu_cache_flush=True
@@ -88,23 +97,38 @@ if __name__ == "__main__":
                 min_repeat_ms=200,
                 enable_cpu_cache_flush=True,
             )
+    elif args.target == "cuda":
+        target = tvm.target.Target("cuda")
+        if args.tuner == "autotvm":
+            print("Autotvm not supported for cuda target yet :(")
+            exit(0)
+        elif args.tuner == "auto_scheduler":
+                measure_ctx = auto_scheduler.LocalRPCMeasureContext(repeat=1, min_repeat_ms=300, timeout=10)
 
     if args.tuner == "autotvm":
         tuning_option = {
             "n_trial": 1000,
             "early_stopping": 500,
             "measure_option": measure_option,
-            "tuning_records": args.tuning_records,
+            "tuning_records": log_file,
         }
         print("Tuning network with autotvm...")
         tune_network(mod, params, target, tuning_option)
     elif args.tuner == "auto_scheduler":
-        tuning_option = auto_scheduler.TuningOptions(
-            num_measure_trials=15000,
-            builder=builder,
-            runner=runner,
-            measure_callbacks=[
-                auto_scheduler.RecordToFile(args.tuning_records)],
-        )
-
+        if args.target == "cuda":
+            tuning_option = auto_scheduler.TuningOptions(
+                num_measure_trials=15,
+                runner=measure_ctx.runner,
+                measure_callbacks=[
+                    auto_scheduler.RecordToFile(log_file)],
+            )
+        else:
+            tuning_option = auto_scheduler.TuningOptions(
+                num_measure_trials=15,
+                builder=builder,
+                runner=runner,
+                measure_callbacks=[
+                    auto_scheduler.RecordToFile(log_file)],
+            )
+        print("Tuning network with auto_sheduler...")
         tune_network_auto_scheduler(mod, params, target, tuning_option)
