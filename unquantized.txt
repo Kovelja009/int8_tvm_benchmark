@@ -1,0 +1,56 @@
+One or more operators have not been tuned. Please tune your model for better performance. Use DEBUG logging level to see more details.
+Execution time summary:
+ mean (ms)   median (ms)    max (ms)     min (ms)     std (ms)  
+   2.8617       2.7156       4.2865       2.6760       0.4207                  
+Name                                                                                        Duration (us)  Percent  Device  Count                                                                                                            Argument Shapes              Hash  data_layout  kernel_layout  layout  out_layout  
+tvmgen_default_fused_nn_conv2d_add_nn_relu_3                                                       493.41    17.21   cuda0      1                             float32[1, 256, 14, 14], float32[512, 256, 3, 3], float32[1, 512, 1, 1], float32[1, 512, 7, 7]  345f1e170fab75a4         NCHW           OIHW                      
+tvmgen_default_fused_nn_contrib_conv2d_winograd_without_weight_transform_add_add_nn_relu_2         300.03    10.46   cuda0      2  float32[1, 256, 14, 14], float32[4, 4, 256, 256], float32[1, 256, 1, 1], float32[1, 256, 14, 14], float32[1, 256, 14, 14]  3934d9ec0bb281ce         NCHW           OIHW                      
+tvmgen_default_fused_nn_contrib_conv2d_winograd_without_weight_transform_add_add_nn_relu_3         273.92     9.55   cuda0      2        float32[1, 512, 7, 7], float32[4, 4, 512, 512], float32[1, 512, 1, 1], float32[1, 512, 7, 7], float32[1, 512, 7, 7]  e099253a04332396         NCHW           OIHW                      
+tvmgen_default_fused_nn_contrib_conv2d_winograd_without_weight_transform_add_add_nn_relu_1         255.52     8.91   cuda0      2  float32[1, 128, 28, 28], float32[4, 4, 128, 128], float32[1, 128, 1, 1], float32[1, 128, 28, 28], float32[1, 128, 28, 28]  3d20d99abfeafc0f         NCHW           OIHW                      
+tvmgen_default_fused_nn_conv2d_add_nn_relu_2                                                       215.52     7.52   cuda0      1                           float32[1, 128, 28, 28], float32[256, 128, 3, 3], float32[1, 256, 1, 1], float32[1, 256, 14, 14]  805fc47b7834e43d         NCHW           OIHW                      
+tvmgen_default_fused_nn_contrib_conv2d_winograd_without_weight_transform_add_add_nn_relu           187.52     6.54   cuda0      2        float32[1, 64, 56, 56], float32[6, 6, 64, 64], float32[1, 64, 1, 1], float32[1, 64, 56, 56], float32[1, 64, 56, 56]  6427687dc88c11af         NCHW           OIHW                      
+tvmgen_default_fused_nn_contrib_conv2d_winograd_without_weight_transform_add_nn_relu               177.85     6.20   cuda0      2                                float32[1, 64, 56, 56], float32[6, 6, 64, 64], float32[1, 64, 1, 1], float32[1, 64, 56, 56]  aedde96cc0ff76d4         NCHW           OIHW                      
+tvmgen_default_fused_nn_conv2d_add_nn_relu_1                                                       166.59     5.81   cuda0      1                             float32[1, 64, 56, 56], float32[128, 64, 3, 3], float32[1, 128, 1, 1], float32[1, 128, 28, 28]  a39ce9391110375d         NCHW           OIHW                      
+tvmgen_default_fused_nn_contrib_conv2d_winograd_without_weight_transform_add_nn_relu_2             147.49     5.14   cuda0      1                           float32[1, 256, 14, 14], float32[4, 4, 256, 256], float32[1, 256, 1, 1], float32[1, 256, 14, 14]  ebe8c9ab00f6191d         NCHW           OIHW                      
+tvmgen_default_fused_nn_contrib_conv2d_winograd_without_weight_transform_add_nn_relu_3             137.02     4.78   cuda0      1                               float32[1, 512, 7, 7], float32[4, 4, 512, 512], float32[1, 512, 1, 1], float32[1, 512, 7, 7]  561e14d4676a3b18         NCHW           OIHW                      
+tvmgen_default_fused_nn_conv2d_add_nn_relu                                                         136.13     4.75   cuda0      1                              float32[1, 3, 224, 224], float32[64, 3, 7, 7], float32[1, 64, 1, 1], float32[1, 64, 112, 112]  9fe471638c256ece         NCHW           OIHW                      
+tvmgen_default_fused_nn_contrib_conv2d_winograd_without_weight_transform_add_nn_relu_1             124.32     4.34   cuda0      1                           float32[1, 128, 28, 28], float32[4, 4, 128, 128], float32[1, 128, 1, 1], float32[1, 128, 28, 28]  ce72bd730dc98b17         NCHW           OIHW                      
+tvmgen_default_fused_nn_conv2d_add_2                                                                63.84     2.23   cuda0      1                             float32[1, 256, 14, 14], float32[512, 256, 1, 1], float32[1, 512, 1, 1], float32[1, 512, 7, 7]  77b159384e8445d3         NCHW           OIHW                      
+tvmgen_default_fused_nn_conv2d_add_1                                                                38.21     1.33   cuda0      1                           float32[1, 128, 28, 28], float32[256, 128, 1, 1], float32[1, 256, 1, 1], float32[1, 256, 14, 14]  006e8f3fcac89ef9         NCHW           OIHW                      
+tvmgen_default_fused_nn_max_pool2d                                                                  33.53     1.17   cuda0      1                                                                           float32[1, 64, 112, 112], float32[1, 64, 56, 56]  7c3d0ff8d798eea6                                NCHW              
+tvmgen_default_fused_nn_conv2d_add                                                                  28.67     1.00   cuda0      1                             float32[1, 64, 56, 56], float32[128, 64, 1, 1], float32[1, 128, 1, 1], float32[1, 128, 28, 28]  be36901755a6f28d         NCHW           OIHW                      
+tvmgen_default_fused_nn_dense_add                                                                   20.42     0.71   cuda0      1                                                    float32[1, 512], float32[1000, 512], float32[1, 1000], float32[1, 1000]  be83b583e5ca494e                                                  
+tvmgen_default_fused_nn_adaptive_avg_pool2d                                                          4.77     0.17   cuda0      1                                                                               float32[1, 512, 7, 7], float32[1, 512, 1, 1]  61b143b6e27e2ebd                                NCHW              
+__nop                                                                                                2.37     0.08   cuda0      1                                                                                     float32[1, 512, 1, 1], float32[1, 512]  04891aab9f3ea6a1                                                  
+----------                                                                                                                                                                                                                                                                                                                      
+Sum                                                                                              2,807.13    97.90             24                                                                                                                                                                                               
+Total                                                                                            2,867.20            cuda0      1                                                                                                                                                                                               
+
+Configuration
+-------------
+Number of threads: 1
+Executor: Graph
+
+Traceback (most recent call last):
+  File "/home/kovelja/Desktop/research/uiuc/tvm/testing/tvm-models-baseline/profiling_main.py", line 125, in <module>
+    testing.assert_allclose(
+  File "/home/kovelja/Desktop/research/uiuc/tvm/python/tvm/testing/utils.py", line 120, in assert_allclose
+    np.testing.assert_allclose(actual, desired, rtol=rtol, atol=atol, verbose=True)
+  File "/home/kovelja/.local/lib/python3.10/site-packages/numpy/testing/_private/utils.py", line 1504, in assert_allclose
+    assert_array_compare(compare, actual, desired, err_msg=str(err_msg),
+  File "/usr/lib/python3.10/contextlib.py", line 79, in inner
+    return func(*args, **kwds)
+  File "/home/kovelja/.local/lib/python3.10/site-packages/numpy/testing/_private/utils.py", line 797, in assert_array_compare
+    raise AssertionError(msg)
+AssertionError: 
+Not equal to tolerance rtol=0.0001, atol=1e-07
+
+Mismatched elements: 1 / 1000 (0.1%)
+Max absolute difference: 5.2452087e-06
+Max relative difference: 0.00035805
+ x: array([[ 1.601658e+00,  3.152590e+00,  2.869817e+00,  3.131576e+00,
+         4.940109e+00,  4.930666e+00,  4.783157e+00,  3.580807e-01,
+        -8.274214e-01, -5.773701e-01, -7.405518e-01,  1.042520e+00,...
+ y: array([[ 1.601660e+00,  3.152591e+00,  2.869821e+00,  3.131581e+00,
+         4.940113e+00,  4.930669e+00,  4.783161e+00,  3.580797e-01,
+        -8.274215e-01, -5.773714e-01, -7.405533e-01,  1.042518e+00,...

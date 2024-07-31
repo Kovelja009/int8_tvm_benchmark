@@ -1,0 +1,16 @@
+ElapsedTime(s)	246	EstimatedLatency(ms)	N/A	Trials	64
+ElapsedTime(s)	507	EstimatedLatency(ms)	N/A	Trials	128
+ElapsedTime(s)	646	EstimatedLatency(ms)	N/A	Trials	192
+ElapsedTime(s)	888	EstimatedLatency(ms)	N/A	Trials	256
+ElapsedTime(s)	1196	EstimatedLatency(ms)	N/A	Trials	320
+ElapsedTime(s)	1461	EstimatedLatency(ms)	N/A	Trials	384
+ElapsedTime(s)	1717	EstimatedLatency(ms)	N/A	Trials	448
+ElapsedTime(s)	1992	EstimatedLatency(ms)	N/A	Trials	512
+ElapsedTime(s)	2153	EstimatedLatency(ms)	N/A	Trials	576
+ElapsedTime(s)	2394	EstimatedLatency(ms)	N/A	Trials	640
+ElapsedTime(s)	2687	EstimatedLatency(ms)	N/A	Trials	704
+ElapsedTime(s)	2957	EstimatedLatency(ms)	N/A	Trials	764
+ElapsedTime(s)	3257	EstimatedLatency(ms)	N/A	Trials	828
+ElapsedTime(s)	3538	EstimatedLatency(ms)	N/A	Trials	892
+ElapsedTime(s)	3786	EstimatedLatency(ms)	3.635	Trials	956
+ElapsedTime(s)	4040	EstimatedLatency(ms)	3.267	Trials	1020
