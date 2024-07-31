@@ -117,7 +117,7 @@ if __name__ == "__main__":
     elif args.tuner == "auto_scheduler":
         if args.target == "cuda":
             tuning_option = auto_scheduler.TuningOptions(
-                num_measure_trials=15,
+                num_measure_trials=1000,
                 runner=measure_ctx.runner,
                 measure_callbacks=[
                     auto_scheduler.RecordToFile(log_file)],

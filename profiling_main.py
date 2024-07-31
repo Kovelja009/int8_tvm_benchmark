@@ -18,6 +18,12 @@ import logging
 logging.getLogger('autotvm').setLevel(logging.DEBUG)
 
 
+'''
+    python3 profiling_main.py --model resnet18 --quantize --tuner auto_scheduler --target cuda --key 1650ti
+
+'''
+
+
 if __name__ == "__main__":
     parser = argparse.ArgumentParser("")
     parser.add_argument("--model", default="resnet18")
@@ -33,7 +39,7 @@ if __name__ == "__main__":
     parser.add_argument("--opt-level", default=3, type=int)
     args = parser.parse_args()
 
-    assert args.target in ["x86", "arm"]
+    assert args.target in ["x86", "arm", "cuda"]
 
     os.environ["TVM_NUM_THREADS"] = str(args.num_threads)
 
@@ -58,6 +64,9 @@ if __name__ == "__main__":
         target = "llvm -mcpu=cascadelake"
     elif args.target == "arm":
         target = "llvm -device=arm_cpu -mtriple=aarch64-linux-gnu -mattr=+v8.2a,+dotprod"
+    elif args.target == "cuda":
+        target = "cuda"
+
 
     def relay_build(use_auto_scheduler):
         with tvm.transform.PassContext(opt_level=args.opt_level, config={"relay.backend.use_auto_scheduler": use_auto_scheduler}):
@@ -86,6 +95,12 @@ if __name__ == "__main__":
         rlib = remote.load_module(libname)
         ctx = remote.cpu(0)
         m = debug_executor.create(lib.get_graph_json(), rlib, ctx)
+    elif args.target == "cuda":
+        ctx = tvm.cuda(0)
+        m = debug_executor.create(
+            lib.get_graph_json(), lib.get_lib(), ctx)
+
+
 
     for input_info, input_tensor in zip(input_infos, input_tensors):
         m.set_input(
