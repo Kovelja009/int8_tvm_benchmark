@@ -32,7 +32,7 @@ from model_archive import MODEL_ARCHIVE
 if __name__ == "__main__":
     parser = argparse.ArgumentParser("")
     parser.add_argument("--model", default="resnet18")
-    parser.add_argument("--tuning-records", default="resnet18.json")
+    # parser.add_argument("--tuning-records", default="resnet18.json")
     parser.add_argument("--num-threads", default=1, type=int)
     parser.add_argument("--tuner", default="autotvm",
                         choices=["autotvm", "auto_scheduler"])
@@ -47,7 +47,7 @@ if __name__ == "__main__":
 
     model_info = MODEL_ARCHIVE[args.model]
 
-    log_file = "%s-%s.log" % (args.model, args.target)
+    log_file = "%s-%s.json" % (args.model, args.target)
 
     print("Loading model from PyTorch")
     model = model_info["model"]()
@@ -117,7 +117,7 @@ if __name__ == "__main__":
     elif args.tuner == "auto_scheduler":
         if args.target == "cuda":
             tuning_option = auto_scheduler.TuningOptions(
-                num_measure_trials=1000,
+                num_measure_trials=15000,
                 runner=measure_ctx.runner,
                 measure_callbacks=[
                     auto_scheduler.RecordToFile(log_file)],

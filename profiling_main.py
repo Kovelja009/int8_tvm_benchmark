@@ -19,7 +19,7 @@ logging.getLogger('autotvm').setLevel(logging.DEBUG)
 
 
 '''
-    python3 profiling_main.py --model resnet18 --quantize --tuner auto_scheduler --target cuda --key 1650ti
+    python3 profiling_main.py --model resnet18 --quantize --tuner auto_scheduler --tuning-records resnet18-cuda.json --target cuda --key 1650ti
 
 '''
 
@@ -80,6 +80,14 @@ if __name__ == "__main__":
     elif args.tuner == "auto_scheduler":
         with auto_scheduler.ApplyHistoryBest(args.tuning_records):
             lib = relay_build(True)
+
+
+
+    gpu_source_code = lib.get_lib().imported_modules[0].get_source()
+    
+    # # save the source code to a file
+    # with open("model.cu", "w") as f:
+    #     f.write(gpu_source_code)
 
     if args.target == "x86":
         ctx = tvm.device(str(target), 0)
