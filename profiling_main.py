@@ -85,9 +85,11 @@ if __name__ == "__main__":
 
     gpu_source_code = lib.get_lib().imported_modules[0].get_source()
     
-    # # save the source code to a file
-    # with open("model.cu", "w") as f:
-    #     f.write(gpu_source_code)
+    # save the source code to a file
+    with open("unquantized_untuned.cu", "w") as f:
+        f.write(gpu_source_code)
+
+    exit(0)
 
     if args.target == "x86":
         ctx = tvm.device(str(target), 0)
