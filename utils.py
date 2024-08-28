@@ -3,16 +3,16 @@ from tvm.autotvm.tuner import XGBTuner
 
 
 def quantize(mod, params, data_aware, **kwargs):
-    qconfig_kwargs = {
-        "skip_dense_layer": False,
-        "skip_conv_layers": []
-    }
+    # qconfig_kwargs = {
+    #     "skip_dense_layer": False,
+    #     "skip_conv_layers": []
+    # }
     if data_aware:
-        with relay.quantize.qconfig(calibrate_mode="kl_divergence", weight_scale="max", **qconfig_kwargs):
+        with relay.quantize.qconfig(calibrate_mode="kl_divergence", weight_scale="max", **kwargs):
             mod = relay.quantize.quantize(
                 mod, params, dataset=kwargs["calibrate_dataset"]())
     else:
-        with relay.quantize.qconfig(calibrate_mode="global_scale", global_scale=8.0, **qconfig_kwargs):
+        with relay.quantize.qconfig(calibrate_mode="global_scale", global_scale=8.0, **kwargs):
             mod = relay.quantize.quantize(mod, params)
     return mod
 

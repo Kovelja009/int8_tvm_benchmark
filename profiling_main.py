@@ -1,3 +1,4 @@
+import json
 import os
 import argparse
 import time
@@ -58,7 +59,10 @@ if __name__ == "__main__":
         scripted_model, input_infos)
 
     if args.quantize:
-        mod = quantize(mod, params, False)
+        with open("quantization_scheme.json", "r") as read_file:
+            quantization_scheme = json.load(read_file)
+        print("Quantization params: ", quantization_scheme)
+        mod = quantize(mod, params, False, **quantization_scheme)
 
     if args.target == "x86":
         target = "llvm -mcpu=cascadelake"
@@ -86,10 +90,10 @@ if __name__ == "__main__":
     gpu_source_code = lib.get_lib().imported_modules[0].get_source()
     
     # save the source code to a file
-    with open("unquantized_untuned.cu", "w") as f:
-        f.write(gpu_source_code)
+    # with open("unquantized_untuned.cu", "w") as f:
+    #     f.write(gpu_source_code)
 
-    exit(0)
+    # exit(0)
 
     if args.target == "x86":
         ctx = tvm.device(str(target), 0)

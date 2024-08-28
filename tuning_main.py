@@ -1,3 +1,4 @@
+import json
 import os
 import argparse
 
@@ -63,7 +64,10 @@ if __name__ == "__main__":
 
     if args.quantize:
         print("Quantizing model")
-        mod = quantize(mod, params, False)
+        with open("quantization_scheme.json", "r") as read_file:
+            quantization_scheme = json.load(read_file)
+        print("Quantization params: ", quantization_scheme)
+        mod = quantize(mod, params, False, **quantization_scheme)
 
     if args.target == "x86":
         print("Using x86 target")

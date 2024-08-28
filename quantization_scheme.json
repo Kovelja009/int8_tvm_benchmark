@@ -1,0 +1,10 @@
+{
+    "nbit_input": 8,
+    "nbit_weight": 8,
+    "nbit_activation": 2,
+    "dtype_input": "int8",
+    "dtype_weight": "int8",
+    "dtype_activation": "int2",
+    "skip_dense_layer": false,
+    "skip_conv_layers": []
+}
