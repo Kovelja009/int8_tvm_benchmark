@@ -13,16 +13,10 @@ from utils import quantize, tune_network, tune_network_auto_scheduler
 from model_archive import MODEL_ARCHIVE
 
 
-# TODO: Add support for cuda target
 # Example of usage:
-# First we need to start RPC tracker. The tracker is required during the whole tuning process, so we need to open a new terminal for this command:
-'''
-    python3 -m tvm.exec.rpc_tracker --host=127.0.0.1 --port=9190
-'''
-# Then in another terminal, we can start the tuning script for:
 # - CPU x86 target:
 '''
-    python3 tuning_main.py --model resnet18 --quantize --tuner auto_scheduler --target x86 --key 1650ti
+    python3 tuning_main.py --model resnet18 --quantize --tuner auto_scheduler --target x86 --key intel_cpu
 '''
 # - GPU cuda target:
 '''

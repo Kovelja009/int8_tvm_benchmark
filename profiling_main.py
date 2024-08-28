@@ -18,7 +18,8 @@ from model_archive import MODEL_ARCHIVE
 import logging
 logging.getLogger('autotvm').setLevel(logging.DEBUG)
 
-
+# Example of usage:
+# - GPU cuda target:
 '''
     python3 profiling_main.py --model resnet18 --quantize --tuner auto_scheduler --tuning-records resnet18-cuda.json --target cuda --key 1650ti
 
@@ -38,6 +39,7 @@ if __name__ == "__main__":
     parser.add_argument("--port", default=9190, type=int)
     parser.add_argument("--key", default="pixel4")
     parser.add_argument("--opt-level", default=3, type=int)
+    parser.add_argument("--cuda-source", default=False, type=bool)
     args = parser.parse_args()
 
     assert args.target in ["x86", "arm", "cuda"]
@@ -86,14 +88,14 @@ if __name__ == "__main__":
             lib = relay_build(True)
 
 
+    if args.cuda_source:
+        gpu_source_code = lib.get_lib().imported_modules[0].get_source()
+        
+        # save the source code to a file
+        with open("cuda_code.cu", "w") as f:
+            f.write(gpu_source_code)
 
-    gpu_source_code = lib.get_lib().imported_modules[0].get_source()
-    
-    # save the source code to a file
-    # with open("unquantized_untuned.cu", "w") as f:
-    #     f.write(gpu_source_code)
 
-    # exit(0)
 
     if args.target == "x86":
         ctx = tvm.device(str(target), 0)
